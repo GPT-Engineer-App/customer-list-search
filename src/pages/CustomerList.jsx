@@ -3,12 +3,23 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"; // Import Select components
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const initialCustomers = [
   { name: "John", surname: "Doe", phone: "123-456-7890", email: "john.doe@example.com", leftEye: { sfera: "", cylinder: "", os: "", pd: "" }, rightEye: { sfera: "", cylinder: "", os: "", pd: "" } },
   { name: "Jane", surname: "Smith", phone: "987-654-3210", email: "jane.smith@example.com", leftEye: { sfera: "", cylinder: "", os: "", pd: "" }, rightEye: { sfera: "", cylinder: "", os: "", pd: "" } },
 ];
+
+const generateSferaOptions = () => {
+  const options = [];
+  for (let i = -20; i <= 20; i += 0.25) {
+    options.push(i.toFixed(2));
+  }
+  return options;
+};
+
+const sferaOptions = generateSferaOptions();
 
 const CustomerList = () => {
   const [customers, setCustomers] = useState(initialCustomers);
@@ -99,11 +110,21 @@ const CustomerList = () => {
                     <div className="space-y-2">
                       <div>
                         <Label htmlFor="leftEyeSfera">Sfera</Label>
-                        <Input
-                          id="leftEyeSfera"
-                          value={newCustomer.leftEye.sfera}
-                          onChange={(e) => setNewCustomer({ ...newCustomer, leftEye: { ...newCustomer.leftEye, sfera: e.target.value } })}
-                        />
+                        <Select
+                      value={newCustomer.leftEye.sfera}
+                      onValueChange={(value) => setNewCustomer({ ...newCustomer, leftEye: { ...newCustomer.leftEye, sfera: value } })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Sfera" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {sferaOptions.map((option) => (
+                          <SelectItem key={option} value={option}>
+                            {option}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                       </div>
                       <div>
                         <Label htmlFor="leftEyeCylinder">Cylinder</Label>
@@ -136,11 +157,21 @@ const CustomerList = () => {
                     <div className="space-y-2">
                       <div>
                         <Label htmlFor="rightEyeSfera">Sfera</Label>
-                        <Input
-                          id="rightEyeSfera"
-                          value={newCustomer.rightEye.sfera}
-                          onChange={(e) => setNewCustomer({ ...newCustomer, rightEye: { ...newCustomer.rightEye, sfera: e.target.value } })}
-                        />
+                        <Select
+                      value={newCustomer.rightEye.sfera}
+                      onValueChange={(value) => setNewCustomer({ ...newCustomer, rightEye: { ...newCustomer.rightEye, sfera: value } })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Sfera" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {sferaOptions.map((option) => (
+                          <SelectItem key={option} value={option}>
+                            {option}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                       </div>
                       <div>
                         <Label htmlFor="rightEyeCylinder">Cylinder</Label>
@@ -263,11 +294,21 @@ const CustomerList = () => {
                 <div className="space-y-2">
                   <div>
                     <Label htmlFor="editLeftEyeSfera">Sfera</Label>
-                    <Input
-                      id="editLeftEyeSfera"
+                    <Select
                       value={editCustomer.leftEye.sfera}
-                      onChange={(e) => setEditCustomer({ ...editCustomer, leftEye: { ...editCustomer.leftEye, sfera: e.target.value } })}
-                    />
+                      onValueChange={(value) => setEditCustomer({ ...editCustomer, leftEye: { ...editCustomer.leftEye, sfera: value } })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Sfera" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {sferaOptions.map((option) => (
+                          <SelectItem key={option} value={option}>
+                            {option}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div>
                     <Label htmlFor="editLeftEyeCylinder">Cylinder</Label>
@@ -300,11 +341,21 @@ const CustomerList = () => {
                 <div className="space-y-2">
                   <div>
                     <Label htmlFor="editRightEyeSfera">Sfera</Label>
-                    <Input
-                      id="editRightEyeSfera"
+                    <Select
                       value={editCustomer.rightEye.sfera}
-                      onChange={(e) => setEditCustomer({ ...editCustomer, rightEye: { ...editCustomer.rightEye, sfera: e.target.value } })}
-                    />
+                      onValueChange={(value) => setEditCustomer({ ...editCustomer, rightEye: { ...editCustomer.rightEye, sfera: value } })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Sfera" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {sferaOptions.map((option) => (
+                          <SelectItem key={option} value={option}>
+                            {option}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div>
                     <Label htmlFor="editRightEyeCylinder">Cylinder</Label>
