@@ -14,6 +14,7 @@ const CustomerList = () => {
   const [customers, setCustomers] = useState(initialCustomers);
   const [searchTerm, setSearchTerm] = useState("");
   const [newCustomer, setNewCustomer] = useState({ name: "", surname: "", phone: "", email: "", leftEye: { sfera: "", cylinder: "", os: "", pd: "" }, rightEye: { sfera: "", cylinder: "", os: "", pd: "" } });
+  const [editCustomer, setEditCustomer] = useState(null);
 
   const filteredCustomers = customers.filter(customer =>
     Object.values(customer).some(value =>
@@ -24,6 +25,18 @@ const CustomerList = () => {
   const handleAddCustomer = () => {
     setCustomers([...customers, newCustomer]);
     setNewCustomer({ name: "", surname: "", phone: "", email: "", leftEye: { sfera: "", cylinder: "", os: "", pd: "" }, rightEye: { sfera: "", cylinder: "", os: "", pd: "" } });
+  };
+
+  const handleEditCustomer = (index) => {
+    setEditCustomer({ ...customers[index], index });
+  };
+
+  const handleSaveEditCustomer = () => {
+    const updatedCustomers = [...customers];
+    updatedCustomers[editCustomer.index] = { ...editCustomer };
+    delete updatedCustomers[editCustomer.index].index;
+    setCustomers(updatedCustomers);
+    setEditCustomer(null);
   };
 
   return (
@@ -178,6 +191,7 @@ const CustomerList = () => {
                 <th className="py-2">Right Eye Cylinder</th>
                 <th className="py-2">Right Eye Oś</th>
                 <th className="py-2">Right Eye PD</th>
+                <th className="py-2">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -195,12 +209,137 @@ const CustomerList = () => {
                   <td className="py-2">{customer.rightEye.cylinder}</td>
                   <td className="py-2">{customer.rightEye.os}</td>
                   <td className="py-2">{customer.rightEye.pd}</td>
+                  <td className="py-2">
+                    <Button variant="outline" size="sm" onClick={() => handleEditCustomer(index)}>Edit</Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </CardContent>
       </Card>
+
+      {editCustomer && (
+        <Dialog open={editCustomer !== null} onOpenChange={() => setEditCustomer(null)}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Edit Customer</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="editName">Name</Label>
+                <Input
+                  id="editName"
+                  value={editCustomer.name}
+                  onChange={(e) => setEditCustomer({ ...editCustomer, name: e.target.value })}
+                />
+              </div>
+              <div>
+                <Label htmlFor="editSurname">Surname</Label>
+                <Input
+                  id="editSurname"
+                  value={editCustomer.surname}
+                  onChange={(e) => setEditCustomer({ ...editCustomer, surname: e.target.value })}
+                />
+              </div>
+              <div>
+                <Label htmlFor="editPhone">Phone</Label>
+                <Input
+                  id="editPhone"
+                  value={editCustomer.phone}
+                  onChange={(e) => setEditCustomer({ ...editCustomer, phone: e.target.value })}
+                />
+              </div>
+              <div>
+                <Label htmlFor="editEmail">Email</Label>
+                <Input
+                  id="editEmail"
+                  value={editCustomer.email}
+                  onChange={(e) => setEditCustomer({ ...editCustomer, email: e.target.value })}
+                />
+              </div>
+              <div>
+                <Label>Left Eye</Label>
+                <div className="space-y-2">
+                  <div>
+                    <Label htmlFor="editLeftEyeSfera">Sfera</Label>
+                    <Input
+                      id="editLeftEyeSfera"
+                      value={editCustomer.leftEye.sfera}
+                      onChange={(e) => setEditCustomer({ ...editCustomer, leftEye: { ...editCustomer.leftEye, sfera: e.target.value } })}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="editLeftEyeCylinder">Cylinder</Label>
+                    <Input
+                      id="editLeftEyeCylinder"
+                      value={editCustomer.leftEye.cylinder}
+                      onChange={(e) => setEditCustomer({ ...editCustomer, leftEye: { ...editCustomer.leftEye, cylinder: e.target.value } })}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="editLeftEyeOs">Oś</Label>
+                    <Input
+                      id="editLeftEyeOs"
+                      value={editCustomer.leftEye.os}
+                      onChange={(e) => setEditCustomer({ ...editCustomer, leftEye: { ...editCustomer.leftEye, os: e.target.value } })}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="editLeftEyePd">PD</Label>
+                    <Input
+                      id="editLeftEyePd"
+                      value={editCustomer.leftEye.pd}
+                      onChange={(e) => setEditCustomer({ ...editCustomer, leftEye: { ...editCustomer.leftEye, pd: e.target.value } })}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <Label>Right Eye</Label>
+                <div className="space-y-2">
+                  <div>
+                    <Label htmlFor="editRightEyeSfera">Sfera</Label>
+                    <Input
+                      id="editRightEyeSfera"
+                      value={editCustomer.rightEye.sfera}
+                      onChange={(e) => setEditCustomer({ ...editCustomer, rightEye: { ...editCustomer.rightEye, sfera: e.target.value } })}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="editRightEyeCylinder">Cylinder</Label>
+                    <Input
+                      id="editRightEyeCylinder"
+                      value={editCustomer.rightEye.cylinder}
+                      onChange={(e) => setEditCustomer({ ...editCustomer, rightEye: { ...editCustomer.rightEye, cylinder: e.target.value } })}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="editRightEyeOs">Oś</Label>
+                    <Input
+                      id="editRightEyeOs"
+                      value={editCustomer.rightEye.os}
+                      onChange={(e) => setEditCustomer({ ...editCustomer, rightEye: { ...editCustomer.rightEye, os: e.target.value } })}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="editRightEyePd">PD</Label>
+                    <Input
+                      id="editRightEyePd"
+                      value={editCustomer.rightEye.pd}
+                      onChange={(e) => setEditCustomer({ ...editCustomer, rightEye: { ...editCustomer.rightEye, pd: e.target.value } })}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-end space-x-2">
+                <Button variant="outline" onClick={() => setEditCustomer(null)}>Cancel</Button>
+                <Button onClick={handleSaveEditCustomer}>Save</Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 };
